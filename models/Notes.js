@@ -6,8 +6,9 @@ const NoteSchema = new mongoose.Schema({
         default: 'untitled',
         maxlength: 30,
     },
-    label:{
+    tag:{
         type: String,
+        maxlength: 20,
 
     },
     createdBy: {

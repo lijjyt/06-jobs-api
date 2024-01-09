@@ -7,7 +7,18 @@ const getAllNotes = async (req, res) => {
     res.status(StatusCodes.OK).json({ notes })
 }
 const getNotes = async (req, res) => {
-    res.send('get notes')
+    const {
+        user:{userId},
+        params:{id:noteId}
+        } = req
+    
+    const note = await Note.findOne({
+        _id:noteId,createdBy:userId
+    })
+    if(!note){
+        throw new NotFoundError(`No note found`)
+    }
+    res.status(StatusCodes.OK).json({ note })
 }
 const createNotes = async (req, res) => {
     req.body.createdBy = req.user.userId
@@ -15,10 +26,39 @@ const createNotes = async (req, res) => {
     res.status(StatusCodes.CREATED).json({ note })
 }
 const updateNotes = async (req, res) => {
-    res.send('update notes')
+    const {
+        body:{name},
+        user:{userId},
+        params:{id:noteId}
+        } = req
+    if (name === ''){
+        throw new BadRequestError('Name required')
+    }
+
+    const note = await Note.findByIdAndUpdate(
+        {_id:noteId, createdBy:userId}, 
+        req.body, 
+        {new:true, runValidators:true}
+    )
+    if (!note) {
+        throw new NotFoundError(`No note with that name`)
+    }
+    res.status(StatusCodes.OK).json({ note })
+
 }
 const deleteNotes = async (req, res) => {
-    res.send('delete notes')
+    const {
+        user:{userId},
+        params:{id:noteId}
+        } = req
+
+    const note = await Note.findByIdAndRemove(
+        {_id:noteId, createdBy:userId}, 
+    )
+    if (!note) {
+        throw new NotFoundError(`No note with that name`)
+    }
+    res.status(StatusCodes.OK).send("deleted")
 }
 
 module.exports = {
