@@ -38,7 +38,7 @@ app.use(xss())
 
 
 // routes
-app.get('/', (req, res){
+app.get('/', (req, res)=>{
   res.send('jobs api')
 })
 
