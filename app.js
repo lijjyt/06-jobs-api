@@ -38,9 +38,11 @@ app.use(xss())
 
 
 // routes
-app.get('/', (req, res)=>{
-  res.send('jobs api')
-})
+//app.get("/", (req, res) => {
+//  res.send('<h1>Notes API</h1><a href="/api-docs">Documentation</a>');
+//});
+
+app.use(express.static("public"));
 
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/notes',authenticateUser, notesRouter)

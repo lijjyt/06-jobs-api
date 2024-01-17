@@ -27,11 +27,11 @@ const createNotes = async (req, res) => {
 }
 const updateNotes = async (req, res) => {
     const {
-        body:{name},
+        body:{title},
         user:{userId},
         params:{id:noteId}
         } = req
-    if (name === ''){
+    if (title === ''){
         throw new BadRequestError('Name required')
     }
 
@@ -58,7 +58,7 @@ const deleteNotes = async (req, res) => {
     if (!note) {
         throw new NotFoundError(`No note with that name`)
     }
-    res.status(StatusCodes.OK).send("deleted")
+    res.status(StatusCodes.OK).json({ msg: "The entry was deleted." });
 }
 
 module.exports = {

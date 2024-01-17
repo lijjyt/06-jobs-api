@@ -1,10 +1,13 @@
 const mongoose = require('mongoose')
 
 const NoteSchema = new mongoose.Schema({
-    name:{
+    title:{
         type: String,
         default: 'untitled',
         maxlength: 30,
+    },
+    note:{
+        type: String,
     },
     tag:{
         type: String,
